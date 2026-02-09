@@ -56,13 +56,27 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Compile & run unit tests
+      - name: Build and install all modules
+        run: mvn clean install -DskipTests
+
+      - name: Run unit tests
         run: >
-          mvn clean test
+          mvn test
           -pl='!application,!dao,!ui-ngx,!msa/js-executor,!msa/web-ui,!netty-mqtt'
 
-      - name: Build ThingsBoard
-        run: mvn package -DskipTests
+      - name: Initialize PostgreSQL database
+        run: |
+          PGPASSWORD=postgres psql -h localhost -U postgres -d thingsboard -c "
+            DO \$\$ 
+            BEGIN
+              IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'root') THEN
+                CREATE ROLE root WITH LOGIN SUPERUSER PASSWORD 'postgres';
+              END IF;
+            END
+            \$\$;
+          "
+        env:
+          PGPASSWORD: postgres
 
       - name: Launch ThingsBoard
         run: |
