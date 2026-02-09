@@ -70,16 +70,20 @@ class EntityNameValidatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"A", "Device", "a".repeat(255)})
+    @ValueSource(strings = {"A", "Device"})
     void lenOk(String name) {
         assertTrue(EntityNameValidator.hasValidLength(name));
+        String maxLength = "a".repeat(255);
+        assertTrue(EntityNameValidator.hasValidLength(maxLength));
     }
 
     @ParameterizedTest
     @NullAndEmptySource
-    @ValueSource(strings = {"   ", "a".repeat(256)})
+    @ValueSource(strings = {"   "})
     void lenBad(String name) {
+        String overMax = "a".repeat(256);
         assertFalse(EntityNameValidator.hasValidLength(name));
+        assertFalse(EntityNameValidator.hasValidLength(overMax));
     }
 
     @ParameterizedTest
