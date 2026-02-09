@@ -64,6 +64,9 @@ jobs:
           mvn test
           -pl='!application,!dao,!ui-ngx,!msa/js-executor,!msa/web-ui,!netty-mqtt'
 
+      - name: Test new feature EntityNameValidator
+        run: mvn test -Dtest=EntityNameValidatorTest -pl common/util
+
       - name: Initialize PostgreSQL database
         run: |
           PGPASSWORD=postgres psql -h localhost -U postgres -d thingsboard -c "
