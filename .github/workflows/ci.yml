@@ -22,7 +22,7 @@ on:
   push:
     branches: [ master ] 
   pull_request:
-    branches: [ master ] #ici par exemple
+    branches: [ master ] #exemple de push
 
 jobs:
   ci:
