@@ -32,4 +32,4 @@ jobs:
           distribution: 'temurin'
       - name: Run Integration Test
         run: |
-          mvn clean install "-Dtest=AssetIntegrationTest" "-Dsurefire.failIfNoSpecifiedTests=false" "-Dlicense.skip=true" -pl :data -am -DskipTests=false -T4 
+          mvn clean install "-Dtest=AssetIntegrationTest" "-Dsurefire.failIfNoSpecifiedTests=false" "-Dlicense.skip=true" -pl :data -am -DskipTests=false -T4
