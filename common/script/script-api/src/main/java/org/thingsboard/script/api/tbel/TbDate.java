@@ -616,12 +616,11 @@ public class TbDate implements Serializable, Cloneable {
         }
     }
     private static Instant getInstantWithLocalZoneOffsetId_RFC_1123(String value) {
-        String s = value.trim() + " GMT";
-        Instant instant = Instant.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(s));
-        ZoneId systemZone = ZoneId.systemDefault(); // my timezone
-        String id =  systemZone.getRules().getOffset(instant).getId();
-        value =  value.trim() + " " + id.replaceAll(":", "");
-        return Instant.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(value));
+        DateTimeFormatter localRfc1123Formatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss", Locale.ENGLISH);
+        LocalDateTime localDateTime = LocalDateTime.parse(value.trim(), localRfc1123Formatter);
+        ZoneId systemZone = ZoneId.systemDefault();
+        ZonedDateTime zonedDateTime = localDateTime.atZone(systemZone);
+        return zonedDateTime.toInstant();
     }
 
     private static Instant parseInstant(String s, String pattern, Locale locale, ZoneId zoneId) {
