@@ -24,10 +24,6 @@ on:
   pull_request:
     branches: [ master ]
 
-permissions: 
-  contents: write 
-  workflows: write
-
 jobs:
   ci:
     runs-on: ubuntu-latest
